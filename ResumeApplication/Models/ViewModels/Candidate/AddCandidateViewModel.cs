@@ -2,7 +2,7 @@
 using Microsoft.VisualBasic.CompilerServices;
 using ResumeApplication.ValidationAttributes;
 
-namespace ResumeApplication.Models.Candidate
+namespace ResumeApplication.Models.ViewModels.Candidate
 {
     public class AddCandidateViewModel
     {

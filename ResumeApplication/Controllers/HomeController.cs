@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ResumeApplication.Models;
 using System.Diagnostics;
+using ResumeApplication.Models.ViewModels;
 
 namespace ResumeApplication.Controllers
 {

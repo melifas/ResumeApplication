@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<ICandidateService, CandidateService>();
+builder.Services.AddScoped<IDegreeService, DegreeService>();
 
 builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase(builder.Configuration.GetConnectionString(Constants.ResumeDb)));
 

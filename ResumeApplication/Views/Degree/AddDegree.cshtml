@@ -1,0 +1,28 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model ResumeApplication.Models.ViewModels.Degree.AddDegreeViewModel
+
+@{
+	ViewBag.Title = "Add Degree";
+}
+
+<h2>Add Degree</h2>
+
+<div class="row">
+	<div class="col-md-12">
+		<form asp-action="AddDegree" method="post">
+            <div class="form-group" style="margin-bottom: 10px;">
+                <label asp-for="Name" class="form-label">Degree Name</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <input asp-for="CreationTime" type="hidden" class="form-control-file" />
+
+            <button type="submit" class="btn btn-primary">Add Degree</button>
+		</form>
+	</div>
+</div>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

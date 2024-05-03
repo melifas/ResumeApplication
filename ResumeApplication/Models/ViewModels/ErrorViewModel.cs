@@ -1,4 +1,4 @@
-namespace ResumeApplication.Models
+namespace ResumeApplication.Models.ViewModels
 {
     public class ErrorViewModel
     {
