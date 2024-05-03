@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using ResumeApplication;
+using ResumeApplication.Context;
 using ResumeApplication.Interfaces;
 using ResumeApplication.Services;
 
@@ -7,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<ICandidateService, CandidateService>();
+
+builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase(builder.Configuration.GetConnectionString(Constants.ResumeDb)));
 
 var app = builder.Build();
 
