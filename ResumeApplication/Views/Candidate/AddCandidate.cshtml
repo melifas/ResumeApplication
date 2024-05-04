@@ -8,39 +8,48 @@
 <h2>Add Candidate</h2>
 
 <div class="row">
-    <div class="col-md-6">
-        <h3>Form</h3>
-        <form asp-action="Add" method="post">
-            <div class="form-group">
-                <label asp-for="FirstName">First Name</label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName">Last Name</label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email">Email</label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-	            <label asp-for="Moblie">Phone</label>
-	            <input asp-for="Moblie" class="form-control" />
-	            <span asp-validation-for="Moblie" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-	            <label asp-for="AddCv">Upload CV</label>
-                <input asp-for="AddCv" class="form-control" multiple="multiple"accept="@MimeTypes.ApplicationPdf" />
-                <span asp-validation-for="AddCv" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-primary">Add Candidate</button>
-        </form>
-    </div>
-    <div class="col-md-6">
-        <h3>Upload Files</h3>
-        <button class="btn btn-secondary">Upload</button>
-    </div>
+	<div class="col-md-12">
+        
+		<form asp-action="AddCandidate" method="post" enctype="multipart/form-data">
+			<div class="form-group">
+				<label asp-for="FirstName" class="form-label"></label>
+				<input asp-for="FirstName" class="form-control" />
+				<span asp-validation-for="FirstName" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="LastName" class="form-label"></label>
+				<input asp-for="LastName" class="form-control" />
+				<span asp-validation-for="LastName" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Email" class="form-label"></label>
+				<input asp-for="Email" class="form-control" />
+				<span asp-validation-for="Email" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Moblile" class="form-label"></label>
+				<input asp-for="Moblile" class="form-control" />
+				<span asp-validation-for="Moblile" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="DegreeId" class="form-label"></label>
+				<select asp-for="DegreeId" class="form-control" asp-items="Model.Degrees">
+				</select>
+			</div>
+			<div class="col-md-6">
+				<label asp-for="UploadCv" class="form-label"></label>
+				<input asp-for="UploadCv" class="form-control" type="file" accept="@MimeTypes.ApplicationPdf, @MimeTypes.ApplicationWordOpenXml" />
+				<span asp-validation-for="UploadCv" class="text-danger"></span>
+			</div>
+
+			<button type="submit" class="btn btn-primary">Add Candidate</button>
+		</form>
+	</div>
+	
+	
+
 </div>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

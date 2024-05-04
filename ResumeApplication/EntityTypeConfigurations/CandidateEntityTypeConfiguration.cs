@@ -23,8 +23,6 @@ namespace ResumeApplication.EntityTypeConfigurations
 
             builder.Property(e => e.Mobile).HasMaxLength(10);
 
-            builder.Property(e => e.Cv).HasMaxLength(255);
-
             builder.Property(e => e.CreationTime);
 
             builder.HasOne(i => i.Degree).WithMany(a => a.Candidates).OnDelete(DeleteBehavior.NoAction);

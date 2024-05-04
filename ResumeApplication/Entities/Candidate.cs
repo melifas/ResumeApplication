@@ -17,8 +17,6 @@
 
         public string  Mobile { get; set; }
 
-        public string  Cv { get; set; }
-
         public DateTime CreationTime { get; set; }
 
         //Navigation properties

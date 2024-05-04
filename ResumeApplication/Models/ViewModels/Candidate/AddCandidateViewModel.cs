@@ -29,8 +29,16 @@ namespace ResumeApplication.Models.ViewModels.Candidate
         /// </summary>
         public string Email { get; set; }
 
+        /// <summary>
+        /// The mobile of the candidate
+        /// </summary>
+        public string Moblile { get; set; }
 
-        public string Moblie { get; set; }
+        /// <summary>
+        /// Gets or sets the degree id.
+        /// </summary>
+        [Display(Name = "Degree")]
+        public int DegreeId { get; init; }
 
         /// <summary>
         /// Gets or sets the degrees
@@ -40,8 +48,9 @@ namespace ResumeApplication.Models.ViewModels.Candidate
         /// <summary>
         /// The candidate file to add
         /// </summary>
-        [AllowedMimeTypes(true, new[] { MimeTypes.PdfExtension, MimeTypes.DocxExtension })]
+        //[AllowedMimeTypes(true, [MimeTypes.PdfExtension, MimeTypes.DocxExtension])]
         [Display(Name = "Upload Cv")]
-        public IFormFile AddCv { get; init; }
+        public IFormFile UploadCv { get; init; }
+        public FileInfoViewModel FileInfo { get; init; }
     }
 }

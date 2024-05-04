@@ -1,0 +1,29 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model ResumeApplication.Models.ViewModels.Degree.EditDegreeViewModel
+
+@{
+	ViewBag.Title = "Edit Degree";
+}
+
+<h2>Edit Degree</h2>
+
+<div class="row">
+	<div class="col-md-12">
+		<form asp-action="EditDegree" method="post">
+			
+			<input asp-for="Id" type="hidden" />
+
+			<div class="form-group" style="margin-bottom: 10px;">
+				<label asp-for="Name" class="form-label">Degree Name</label>
+				<input asp-for="Name" class="form-control"/>
+				<span asp-validation-for="Name" class="text-danger"></span>
+			</div>
+
+			<button type="submit" class="btn btn-primary">Edit Degree</button>
+		</form>
+	</div>
+</div>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

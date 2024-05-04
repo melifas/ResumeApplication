@@ -1,6 +1,7 @@
 ﻿using ResumeApplication.Models.ServiceModels.Degree;
 using System.Collections.ObjectModel;
 using ResumeApplication.Entities;
+using ResumeApplication.Models;
 
 namespace ResumeApplication.Interfaces
 {
@@ -20,9 +21,9 @@ namespace ResumeApplication.Interfaces
 		/// <summary>
 		/// Adds a candidate.
 		/// </summary>
-		/// <param name="candidateModel"> The <see cref="Candidate"/> </param>
+		/// <param name="candidateModel"> The <see cref="AddCandidateModel"/> </param>
 		/// <returns> The identifier of the created brand </returns>
-		Task<int> AddCandidateAsync(Candidate candidateModel);
+		Task<int> AddCandidateAsync(AddCandidateModel candidateModel);
 
 	}
 }

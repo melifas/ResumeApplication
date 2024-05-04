@@ -1,33 +1,35 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ResumeApplication.Entities;
 using ResumeApplication.Interfaces;
+using ResumeApplication.Models.ViewModels.Candidate;
 using ResumeApplication.Models.ViewModels.Degree;
 
 namespace ResumeApplication.Controllers
 {
-    public class DegreeController : Controller
+	public class DegreeController : Controller
 	{
 
-        /// <summary>
-        /// The <see cref="IDegreeService"/>.
-        /// </summary>
-        private readonly IDegreeService _degreeService;
+		/// <summary>
+		/// The <see cref="IDegreeService"/>.
+		/// </summary>
+		private readonly IDegreeService _degreeService;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DegreeController"/> class.
-        /// </summary>
-        /// <param name="degreeService"> The <see cref="IDegreeService"/> </param>
-        public DegreeController(IDegreeService degreeService)
-        {
-            _degreeService = degreeService;
-        }
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DegreeController"/> class.
+		/// </summary>
+		/// <param name="degreeService"> The <see cref="IDegreeService"/> </param>
+		public DegreeController(IDegreeService degreeService)
+		{
+			_degreeService = degreeService;
+		}
 
 		public async Task<IActionResult> Index()
-        {
+		{
 
-            var viewModel = await _degreeService.GetDegreesAsync().ConfigureAwait(true);
+			var viewModel = await _degreeService.GetDegreesAsync().ConfigureAwait(true);
 
-            return View(viewModel);
+			return View(viewModel);
 		}
 
 
@@ -38,22 +40,22 @@ namespace ResumeApplication.Controllers
 		}
 
 		[HttpPost("degrees/add")]
+		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> AddDegree(AddDegreeViewModel addDegreeViewModel)
 		{
 			try
 			{
 				if (!ModelState.IsValid)
 				{
-					// Add the degree to the database
-					return RedirectToAction("Index");
+					return View(addDegreeViewModel);
 				}
 
-                var modelDegree = new Degree
-                {
-                    Name = addDegreeViewModel.Name
-                };
+				var modelDegree = new Degree
+				{
+					Name = addDegreeViewModel.Name
+				};
 
-				var model = await _degreeService.AddDegreeAsync(modelDegree).ConfigureAwait(true);
+				await _degreeService.AddDegreeAsync(modelDegree).ConfigureAwait(true);
 
 				return RedirectToAction("Index");
 
@@ -64,6 +66,70 @@ namespace ResumeApplication.Controllers
 			}
 
 			return null;
+		}
+
+
+
+		[HttpGet("degrees/{degreeId:int}/edit")]
+		public async Task<IActionResult> EditDegree(int degreeId)
+		{
+
+			var degree = await _degreeService.GetDegreeAsync(degreeId).ConfigureAwait(true);
+
+			if (degree == null)
+			{
+				return NotFound();
+			}
+
+			var viewModel = new EditDegreeViewModel
+			{
+				Id = degree.Id,
+				Name = degree.Name
+			};
+
+			return View(viewModel);
+
+		}
+
+		[HttpPost("degrees/{degreeId:int}/edit")]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> EditDegree(EditDegreeViewModel editDegreeViewModel)
+		{
+
+			if (!ModelState.IsValid)
+			{
+				return View(editDegreeViewModel);
+			}
+
+			var modelDegree = new Degree
+			{
+				Id = editDegreeViewModel.Id,
+				Name = editDegreeViewModel.Name
+			};
+
+			await _degreeService.UpdateDegreeAsync(modelDegree).ConfigureAwait(true);
+
+			return RedirectToAction("Index");
+
+		}
+
+		[HttpPost("degrees/{degreeId:int}/delete")]
+		[ValidateAntiForgeryToken]
+		//[ValidateAntiForgeryToken]
+		public async Task<IActionResult> DeleteDegree(int degreeId)
+		{
+
+			try
+			{
+				await _degreeService.DeleteDegreeAsync(degreeId).ConfigureAwait(true);
+
+				return RedirectToAction("Index");
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
+				throw;
+			}
 		}
 
 	}
