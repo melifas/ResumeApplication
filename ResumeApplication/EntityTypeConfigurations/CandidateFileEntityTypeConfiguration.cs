@@ -19,7 +19,7 @@ namespace ResumeApplication.EntityTypeConfigurations
             builder.Property(e => e.DataFile).IsRequired();
 
 
-            builder.HasOne(cpi => cpi.Candidate).WithMany(cp => cp.CandidateFiles).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(cr => cr.Candidate).WithOne(r => r.CandidateFile).OnDelete(DeleteBehavior.Cascade);
 
         }
     }

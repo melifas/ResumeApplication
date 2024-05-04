@@ -7,13 +7,11 @@
     {
         public int Id { get; set; }
 
-        public int CandidateId { get; set; }
-
         public string Name { get; set; }
 
         public DateTime CreationTime { get; set; }
 
-        public virtual Candidate Candidate { get; set; }
+        public virtual ICollection<Candidate> Candidates { get; set; }
 
     }
 }

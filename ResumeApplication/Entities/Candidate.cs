@@ -7,6 +7,8 @@
     {
         public int Id { get; set; }
 
+        public int DegreeId { get; set; }
+
         public string  LastName { get; set; }
 
         public string  FirstName { get; set; }
@@ -19,9 +21,9 @@
 
         public DateTime CreationTime { get; set; }
 
+        //Navigation properties
+        public virtual CandidateFile CandidateFile { get; set; }
 
-        public virtual ICollection<CandidateFile> CandidateFiles { get; set; } = new HashSet<CandidateFile>();
-
-        public virtual ICollection<Degree> Degrees { get; set; } = new HashSet<Degree>();
+        public virtual Degree Degree { get; set; }
     }
 }

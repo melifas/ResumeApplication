@@ -26,6 +26,16 @@ namespace ResumeApplication.Services
             _context = context;
         }
 
-       
-    }
+        /// <inheritdoc/>
+		public Task<int> AddCandidateAsync(Candidate candidateModel)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc/>
+		public Task<ReadOnlyCollection<Candidate>> GetCandidatesAsync()
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

@@ -12,8 +12,8 @@
 
         public byte[] DataFile { get; set; }
 
-        public virtual Degree Degree { get; set; }
 
+        //Navigation properties
         public virtual Candidate Candidate { get; set; }
 
     }

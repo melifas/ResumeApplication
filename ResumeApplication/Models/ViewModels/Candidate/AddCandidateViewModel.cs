@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.VisualBasic.CompilerServices;
 using ResumeApplication.ValidationAttributes;
 
@@ -26,14 +27,21 @@ namespace ResumeApplication.Models.ViewModels.Candidate
         /// <summary>
         /// The email of the candidate
         /// </summary>
-        [EmailAddress(ErrorMessage = "Invalid email address")]
         public string Email { get; set; }
 
+
+        public string Moblie { get; set; }
+
         /// <summary>
-        /// The candidate files to add
+        /// Gets or sets the degrees
+        /// </summary>
+        public List<SelectListItem> Degrees { get; set; } = [];
+
+        /// <summary>
+        /// The candidate file to add
         /// </summary>
         [AllowedMimeTypes(true, new[] { MimeTypes.PdfExtension, MimeTypes.DocxExtension })]
-        [Display(Name = "Upload Files")]
-        public List<IFormFile> FilesToAdd { get; init; } = new();
+        [Display(Name = "Upload Cv")]
+        public IFormFile AddCv { get; init; }
     }
 }

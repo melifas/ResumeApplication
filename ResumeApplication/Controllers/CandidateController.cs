@@ -25,5 +25,11 @@ namespace ResumeApplication.Controllers
             return View();
         }
 
-    }
+        [HttpGet("candidates/add")]
+        public IActionResult AddCandidate()
+        {
+	        return View();
+        }
+
+	}
 }
