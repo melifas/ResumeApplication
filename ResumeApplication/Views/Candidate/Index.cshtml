@@ -1,0 +1,51 @@
+﻿@using ResumeApplication.Entities
+@using ResumeApplication.Models.ViewModels.Candidate
+@model IReadOnlyCollection<ResumeApplication.Entities.Candidate>
+
+@{
+	ViewBag.Title = "Candidates";
+
+	var degreeModel = new AddCandidateViewModel();
+	var candidate = new Candidate();
+}
+
+<h2>Candidates</h2>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => degreeModel.FirstName)
+			</th>
+			<th>
+				Degree Name
+			</th>
+			<th>
+				File Name
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.FirstName)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Degree.Name)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.CandidateFile.Name)
+				</td>
+				<td>
+					<a asp-action="EditCandidate" asp-route-candidateId="@item.Id">Edit</a>
+					<form asp-action="DeleteCandidate" asp-route-candidateId="@item.Id" method="post">
+						<button type="submit">Delete</button>
+					</form>
+				</td>
+
+			</tr>
+		}
+	</tbody>
+</table>

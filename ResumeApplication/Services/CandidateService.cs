@@ -6,6 +6,7 @@ using ResumeApplication.Models;
 using ResumeApplication.Helpers;
 using System.Text;
 using ResumeApplication.Models.ViewModels.Candidate;
+using Microsoft.EntityFrameworkCore;
 
 namespace ResumeApplication.Services
 {
@@ -29,27 +30,78 @@ namespace ResumeApplication.Services
 		}
 
 		/// <inheritdoc/>
-		public async Task<int> AddCandidateAsync(AddCandidateModel candidateModel)
+		public async Task<ReadOnlyCollection<Candidate>> GetCandidatesAsync()
+		{
+
+			var candidates = await _context.Candidates
+				.Include(c => c.CandidateFile)
+				.Include(c => c.Degree)
+				.AsNoTracking().ToListAsync()
+				.ConfigureAwait(false);
+
+			return candidates.AsReadOnly();
+		}
+
+		/// <inheritdoc/>
+		public async Task<Candidate> GetCandidateAsync(int candidateId)
+		{
+
+			var candidateModel = await _context.Candidates
+				.Include(c => c.CandidateFile)
+				.Include(c => c.Degree)
+				.AsNoTracking()
+				.FirstOrDefaultAsync(x => x.Id == candidateId)
+				.ConfigureAwait(false);
+
+			if (candidateModel == null)
+			{
+				throw new KeyNotFoundException($"Candidate with id {candidateId} does not exist");
+			}
+
+			return candidateModel;
+		}
+
+		/// <inheritdoc/>
+		public async Task<int> AddCandidateAsync(AddCandidateViewModel candidateModel)
 		{
 			if (candidateModel == null)
 			{
 				throw new ArgumentNullException(nameof(candidateModel), "Supplied object was null");
 			}
 
-			var candidateFile =CreateCompanyServiceFiles(candidateModel.FileInfo);
+			Candidate candidate;
 
-			var candidate = new Candidate
+			if (candidateModel.FileInfo is not null)
 			{
-				FirstName = candidateModel.FirstName,
-				LastName = candidateModel.LastName,
-				Email = candidateModel.Email,
-				Mobile = candidateModel.Mobile,
-				CreationTime = DateTime.UtcNow,
-				DegreeId = candidateModel.DegreeId,
-				CandidateFile = candidateFile
-			};
+				var candidateFile = CreateCompanyServiceFiles(candidateModel.FileInfo);
 
-			await _context.Candidates.AddAsync(candidate).ConfigureAwait(true);
+				candidate = new Candidate
+				{
+					FirstName = candidateModel.FirstName,
+					LastName = candidateModel.LastName,
+					Email = candidateModel.Email,
+					Mobile = candidateModel.Mobile,
+					CreationTime = DateTime.UtcNow,
+					DegreeId = candidateModel.DegreeId,
+					CandidateFile = candidateFile
+				};
+			}
+			else
+			{
+				candidate = new Candidate
+				{
+					FirstName = candidateModel.FirstName,
+					LastName = candidateModel.LastName,
+					Email = candidateModel.Email,
+					Mobile = candidateModel.Mobile,
+					CreationTime = DateTime.UtcNow,
+					DegreeId = candidateModel.DegreeId
+				};
+			}
+
+			await _context.Candidates.AddAsync(candidate).ConfigureAwait(false);
+
+			//await _context.CandidateFiles.AddAsync(candidate.CandidateFile).ConfigureAwait(false);
 
 			await _context.SaveChangesAsync().ConfigureAwait(false);
 
@@ -58,14 +110,72 @@ namespace ResumeApplication.Services
 		}
 
 		/// <inheritdoc/>
-		public Task<ReadOnlyCollection<Candidate>> GetCandidatesAsync()
+		public async Task UpdateCandidateAsync(EditCandidateModel editCandidateModel)
 		{
-			throw new NotImplementedException();
+			if (editCandidateModel == null)
+			{
+				throw new ArgumentNullException(nameof(editCandidateModel), "Supplied update object was null");
+			}
+
+			var candidateModel = await _context.Candidates
+				.Include(c => c.CandidateFile)
+				.Include(c => c.Degree)
+				.AsNoTracking()
+				.FirstOrDefaultAsync(x => x.Id == editCandidateModel.Id)
+				.ConfigureAwait(false);
+
+			if (candidateModel == null)
+			{
+				throw new KeyNotFoundException($"Candidate with id {editCandidateModel.Id}  does not exist");
+			}
+
+			if (editCandidateModel.FileInfo is not null)
+			{
+				
+				if (candidateModel.CandidateFile is null)
+				{
+					//New file. Add it
+					var candidateFile = CreateCompanyServiceFiles(editCandidateModel.FileInfo);
+
+					candidateModel.CandidateFile = candidateFile;
+				}
+				else
+				{
+					//Existing file. Delete it and add the new one
+
+					_context.CandidateFiles.Remove(candidateModel.CandidateFile);
+
+					var candidateFile = CreateCompanyServiceFiles(editCandidateModel.FileInfo);
+
+					candidateModel.CandidateFile = candidateFile;
+				}
+
+			}
+
+			candidateModel.FirstName = editCandidateModel.FirstName;
+			candidateModel.LastName = editCandidateModel.LastName;
+			candidateModel.Email = editCandidateModel.Email;
+			candidateModel.Mobile = editCandidateModel.Mobile;
+			candidateModel.DegreeId = editCandidateModel.DegreeId;
+
+			_context.Candidates.Update(candidateModel);
+
+			await _context.SaveChangesAsync().ConfigureAwait(false);
 		}
 
+		public async Task DeleteCandidateAsync(int candidateId)
+		{
+			var candidateToDelete = await _context.Candidates.FirstOrDefaultAsync(a => a.Id == candidateId).ConfigureAwait(false);
 
+			if (candidateToDelete == null)
+			{
+				throw new KeyNotFoundException($"Candidate with id {candidateId} does not exist.");
+			}
 
+			_context.Candidates.Remove(candidateToDelete);
 
+			await _context.SaveChangesAsync().ConfigureAwait(false);
+		}
 
 		private static CandidateFile CreateCompanyServiceFiles(FileInfoViewModel fileInfo)
 		{

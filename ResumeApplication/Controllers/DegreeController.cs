@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+
 using ResumeApplication.Entities;
 using ResumeApplication.Interfaces;
-using ResumeApplication.Models.ViewModels.Candidate;
 using ResumeApplication.Models.ViewModels.Degree;
 
 namespace ResumeApplication.Controllers
@@ -32,7 +31,6 @@ namespace ResumeApplication.Controllers
 			return View(viewModel);
 		}
 
-
 		[HttpGet("degrees/add")]
 		public IActionResult AddDegree()
 		{
@@ -60,34 +58,45 @@ namespace ResumeApplication.Controllers
 				return RedirectToAction("Index");
 
 			}
+			catch (KeyNotFoundException ke)
+			{
+				return View("Errors/NotFound");
+			}
 			catch (Exception e)
 			{
-
+				return View("Errors/InternalServerError");
 			}
-
-			return null;
 		}
-
-
 
 		[HttpGet("degrees/{degreeId:int}/edit")]
 		public async Task<IActionResult> EditDegree(int degreeId)
 		{
 
-			var degree = await _degreeService.GetDegreeAsync(degreeId).ConfigureAwait(true);
-
-			if (degree == null)
+			try
 			{
-				return NotFound();
+				var degree = await _degreeService.GetDegreeAsync(degreeId).ConfigureAwait(true);
+
+				if (degree == null)
+				{
+					return NotFound();
+				}
+
+				var viewModel = new EditDegreeViewModel
+				{
+					Id = degree.Id,
+					Name = degree.Name
+				};
+
+				return View(viewModel);
 			}
-
-			var viewModel = new EditDegreeViewModel
+			catch (KeyNotFoundException ke)
 			{
-				Id = degree.Id,
-				Name = degree.Name
-			};
-
-			return View(viewModel);
+				return View("Errors/NotFound");
+			}
+			catch (Exception e)
+			{
+				return View("Errors/InternalServerError");
+			}
 
 		}
 
@@ -96,26 +105,36 @@ namespace ResumeApplication.Controllers
 		public async Task<IActionResult> EditDegree(EditDegreeViewModel editDegreeViewModel)
 		{
 
-			if (!ModelState.IsValid)
+			try
 			{
-				return View(editDegreeViewModel);
+				if (!ModelState.IsValid)
+				{
+					return View(editDegreeViewModel);
+				}
+
+				var modelDegree = new Degree
+				{
+					Id = editDegreeViewModel.Id,
+					Name = editDegreeViewModel.Name
+				};
+
+				await _degreeService.UpdateDegreeAsync(modelDegree).ConfigureAwait(true);
+
+				return RedirectToAction("Index");
 			}
-
-			var modelDegree = new Degree
+			catch (KeyNotFoundException ke)
 			{
-				Id = editDegreeViewModel.Id,
-				Name = editDegreeViewModel.Name
-			};
-
-			await _degreeService.UpdateDegreeAsync(modelDegree).ConfigureAwait(true);
-
-			return RedirectToAction("Index");
+				return View("Errors/NotFound");
+			}
+			catch (Exception e)
+			{
+				return View("Errors/InternalServerError");
+			}
 
 		}
 
 		[HttpPost("degrees/{degreeId:int}/delete")]
 		[ValidateAntiForgeryToken]
-		//[ValidateAntiForgeryToken]
 		public async Task<IActionResult> DeleteDegree(int degreeId)
 		{
 
@@ -125,11 +144,15 @@ namespace ResumeApplication.Controllers
 
 				return RedirectToAction("Index");
 			}
+			catch (KeyNotFoundException ke)
+			{
+				return View("Errors/NotFound");
+			}
 			catch (Exception e)
 			{
-				Console.WriteLine(e);
-				throw;
+				return View("Errors/InternalServerError");
 			}
+
 		}
 
 	}

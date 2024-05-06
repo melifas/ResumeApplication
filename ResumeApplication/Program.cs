@@ -1,11 +1,9 @@
-using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+
 using ResumeApplication;
 using ResumeApplication.Context;
 using ResumeApplication.Interfaces;
-using ResumeApplication.Models.ViewModels.Candidate;
 using ResumeApplication.Services;
-using ResumeApplication.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +13,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<ICandidateService, CandidateService>();
 builder.Services.AddScoped<IDegreeService, DegreeService>();
 
-builder.Services.AddTransient<IValidator<AddCandidateViewModel>, AddCandidateViewModelValidator>();
+//builder.Services.AddTransient<IValidator<AddCandidateViewModel>, AddCandidateViewModelValidator>();
 
 
 builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase(builder.Configuration.GetConnectionString(Constants.ResumeDb)));

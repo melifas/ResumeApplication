@@ -1,5 +1,6 @@
 ﻿using ResumeApplication.Entities;
 using ResumeApplication.Models.ServiceModels.Degree;
+
 using System.Collections.ObjectModel;
 
 namespace ResumeApplication.Interfaces

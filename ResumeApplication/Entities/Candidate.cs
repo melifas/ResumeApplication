@@ -7,7 +7,7 @@
     {
         public int Id { get; set; }
 
-        public int DegreeId { get; set; }
+        public int? DegreeId { get; set; }
 
         public string  LastName { get; set; }
 

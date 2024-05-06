@@ -10,7 +10,9 @@
         /// </summary>
         public static readonly string ResumeDb = "ResumeDb";
 
-
-        public const string PhoneRegEx = "([1-9][0-9]*)";
-    }
+		/// <summary>
+		/// The phone regex. SHOULD FOLLOW that pattern. For the shake of project i added the 10 digit validation (E.164 standard) see https://stackoverflow.com/questions/6478875/regular-expression-matching-e-164-formatted-phone-numbers
+		/// </summary>
+		public const string PhoneRegEx = @"^\d{10}$";
+	}
 }

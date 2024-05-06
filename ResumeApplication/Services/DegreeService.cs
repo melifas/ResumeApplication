@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ResumeApplication.Context;
 using ResumeApplication.Entities;
 using ResumeApplication.Interfaces;
 using ResumeApplication.Models.ServiceModels.Degree;
 using System.Collections.ObjectModel;
-using System.ComponentModel.Design;
 
 namespace ResumeApplication.Services
 {

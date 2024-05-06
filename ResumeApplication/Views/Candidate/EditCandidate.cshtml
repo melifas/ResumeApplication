@@ -1,50 +1,52 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
-@model ResumeApplication.Models.ViewModels.Candidate.AddCandidateViewModel
-
+@model ResumeApplication.Models.ViewModels.Candidate.EditCandidateViewModel
 @{
-    ViewBag.Title = "Add Candidate";
+    ViewBag.Title = "Edit Candidate";
 
 }
 
-<h2>Add Candidate</h2>
+<h2>Edit Candidate</h2>
 
 <div class="row">
 	<div class="col-md-12">
         
-		<form asp-action="AddCandidate" method="post" enctype="multipart/form-data">
+		<form asp-action="EditCandidate" method="post" enctype="multipart/form-data">
+			
+			<input asp-for="Id" type="hidden"/>
+
 			<div class="form-group">
 				<label asp-for="FirstName" class="form-label"></label>
-				<input asp-for="FirstName" class="form-control" />
+				<input asp-for="FirstName" class="form-control"/>
 				<span asp-validation-for="FirstName" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="LastName" class="form-label"></label>
-				<input asp-for="LastName" class="form-control" />
+				<input asp-for="LastName" class="form-control"/>
 				<span asp-validation-for="LastName" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="Email" class="form-label"></label>
-				<input asp-for="Email" class="form-control" />
+				<input asp-for="Email" class="form-control"/>
 				<span asp-validation-for="Email" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="Mobile" class="form-label"></label>
-				<input asp-for="Mobile" class="form-control" />
+				<input asp-for="Mobile" class="form-control"/>
 				<span asp-validation-for="Mobile" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="DegreeId" class="form-label"></label>
-                <select asp-for="DegreeId" class="form-control" asp-items="Model.Degrees">
-                    <option value="">-- Select Degree --</option>
-                </select>
+				<select asp-for="DegreeId" class="form-control" asp-items="Model.Degrees">
+					<option value="">-- Select Degree --</option>
+				</select>
 			</div>
 			<div class="form-group">
 				<label asp-for="UploadCv" class="form-label"></label>
-				<input asp-for="UploadCv" class="form-control" type="file" accept="@MimeTypes.ApplicationPdf, @MimeTypes.ApplicationWordOpenXml" />
+				<input asp-for="UploadCv" class="form-control" type="file" accept="@MimeTypes.ApplicationPdf, @MimeTypes.ApplicationWordOpenXml"/>
 				<span asp-validation-for="UploadCv" class="text-danger"></span>
 			</div>
 
-			<button type="submit" class="btn btn-primary">Add Candidate</button>
+			<button type="submit" class="btn btn-primary">Edit Candidate</button>
 		</form>
 	</div>
 	

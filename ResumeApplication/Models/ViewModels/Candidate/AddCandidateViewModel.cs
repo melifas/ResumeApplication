@@ -27,18 +27,20 @@ namespace ResumeApplication.Models.ViewModels.Candidate
         /// <summary>
         /// The email of the candidate
         /// </summary>
+        [EmailAddress]
         public string Email { get; set; }
 
-        /// <summary>
-        /// The mobile of the candidate
-        /// </summary>
-        public string Moblile { get; set; }
+		/// <summary>
+		/// The mobile of the candidate
+		/// </summary>
+		[RegularExpression(Constants.PhoneRegEx, ErrorMessage = "Please enter 10 digits for a contact number")]
+		public string? Mobile { get; set; }
 
         /// <summary>
         /// Gets or sets the degree id.
         /// </summary>
         [Display(Name = "Degree")]
-        public int DegreeId { get; init; }
+        public int? DegreeId { get; init; }
 
         /// <summary>
         /// Gets or sets the degrees
@@ -48,9 +50,10 @@ namespace ResumeApplication.Models.ViewModels.Candidate
         /// <summary>
         /// The candidate file to add
         /// </summary>
-        //[AllowedMimeTypes(true, [MimeTypes.PdfExtension, MimeTypes.DocxExtension])]
+        [AllowedMimeTypes(true, [MimeTypes.ApplicationPdf, MimeTypes.ApplicationWordOpenXml])]
         [Display(Name = "Upload Cv")]
-        public IFormFile UploadCv { get; init; }
-        public FileInfoViewModel FileInfo { get; init; }
+        public IFormFile? UploadCv { get; init; }
+
+        public FileInfoViewModel? FileInfo { get; set; }
     }
 }
