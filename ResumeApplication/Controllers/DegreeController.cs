@@ -133,9 +133,9 @@ namespace ResumeApplication.Controllers
 
 		}
 
-		[HttpPost("degrees/{degreeId:int}/delete")]
+		[HttpPost("degrees/delete")]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> DeleteDegree(int degreeId)
+		public async Task<IActionResult> DeleteDegree([FromBody] int degreeId)
 		{
 
 			try
@@ -146,11 +146,11 @@ namespace ResumeApplication.Controllers
 			}
 			catch (KeyNotFoundException ke)
 			{
-				return View("Errors/NotFound");
+				throw;
 			}
 			catch (Exception e)
 			{
-				return View("Errors/InternalServerError");
+				throw;
 			}
 
 		}

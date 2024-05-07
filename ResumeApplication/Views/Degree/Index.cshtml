@@ -1,10 +1,15 @@
-﻿@using ResumeApplication.Models.ViewModels.Degree
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using ResumeApplication.Helpers
+@using ResumeApplication.Models.ViewModels.Degree
 @model IReadOnlyCollection<ResumeApplication.Entities.Degree>
 
 @{
 	ViewBag.Title = "Degrees";
 
 	var degreeModel = new AddDegreeViewModel();
+
+	var tokenSet = Context.GetAntiforgeryToken();
+
 }
 
 <h2>Degrees</h2>
@@ -13,7 +18,7 @@
 	<button type="submit" class="btn btn-danger">Delete  Unused</button>
 </form>
 
-<hr/>
+<hr />
 
 <table class="table">
 	<thead>
@@ -33,12 +38,85 @@
 			</td>
 			<td>
 				<a asp-action="EditDegree" asp-route-degreeId="@item.Id">Edit</a>
-				<form asp-action="DeleteDegree" asp-route-degreeId="@item.Id" method="post">
-					<button type="submit">Delete</button>
-				</form>
+
+				<a data-bs-toggle="modal" href="#DeleteDegreeModal" data-degree-id="@item.Id">
+					Delete
+				</a>
+
 			</td>
-				
+
 		</tr>
 	}
 	</tbody>
 </table>
+
+<!-- Delete modal -->
+<div id="DeleteDegreeModal" class="modal fade" tabindex="-1" aria-labelledby="DeleteDegreeModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="true" data-bs-focus="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content cust-modal-content-delete">
+			<div class="modal-header cust-modal-header-delete">
+				<h5 id="DeleteDegreeModalLabel" class="modal-title">Delete Degree</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body cust-modal-body-delete">
+				<div class="cust-modal-body-content-delete">
+					<input id="DeleteDegreeModalDegreeId" type="hidden" value="" />
+					<p class="cust-modal-confirmation-text-delete">Are you sure you want to delete degree?</p>
+				</div>
+			</div>
+			<div class="modal-footer cust-modal-footer-delete">
+				<button type="button" class="btn btn-red-upper cust-modal-delete-btn" onclick="deleteDegree();">YES, &nbsp;Delete</button>
+				<button type="button" data-bs-dismiss="modal" class="btn btn-cancel-upper cust-modal-cancel-btn">No, take me back</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+@section Scripts {
+
+	<script type="text/javascript">
+
+		let deleteDegreeModal = document.getElementById('DeleteDegreeModal');
+
+		deleteDegreeModal.addEventListener(
+			'show.bs.modal',
+			function (e) {
+
+				document.getElementById('DeleteDegreeModalDegreeId').value = e.relatedTarget.dataset.degreeId;
+			}
+		);
+
+		function deleteDegree() {
+
+			const degreeId = document.getElementById('DeleteDegreeModalDegreeId').value;
+
+			fetch(
+				'@Url.Action("DeleteDegree")',
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'@tokenSet.HeaderName': '@tokenSet.RequestToken'
+					},
+					body: JSON.stringify(degreeId)
+				})
+				.then((response) => {
+					if (response.ok) {
+						window.location.reload();
+					}
+					else {
+						// console.log(response);
+						throw new Error(response.statusText);
+					}
+				})
+				.catch((error) => {
+					// console.log(error);
+					// console.error(error);
+					window.location = '@Url.Action("HttpStatusCodeHandler", "Error", new { statusCode = 500 })';
+				});
+		}
+
+	</script>
+}

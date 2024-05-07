@@ -102,7 +102,6 @@ namespace ResumeApplication.Controllers
 			}
 		}
 
-
 		[HttpGet("candidates/{candidateId:int}/edit")]
 		public async Task<IActionResult> EditCandidate(int candidateId)
 		{
@@ -175,9 +174,9 @@ namespace ResumeApplication.Controllers
 			}
 		}
 
-		[HttpPost("candidates/{candidateId:int}/delete")]
+		[HttpPost("candidates/delete")]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> DeleteCandidate(int candidateId)
+		public async Task<IActionResult> DeleteCandidate([FromBody]  int candidateId)
 		{
 
 			try
@@ -188,11 +187,11 @@ namespace ResumeApplication.Controllers
 			}
 			catch (KeyNotFoundException ke)
 			{
-				return View("Errors/NotFound");
+				throw;
 			}
 			catch (Exception e)
 			{
-				return View("Errors/InternalServerError");
+				throw;
 			}
 
 		}

@@ -1,51 +1,132 @@
-﻿@using ResumeApplication.Entities
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+
+@using ResumeApplication.Entities
+@using ResumeApplication.Helpers
 @using ResumeApplication.Models.ViewModels.Candidate
+
 @model IReadOnlyCollection<ResumeApplication.Entities.Candidate>
 
 @{
 	ViewBag.Title = "Candidates";
 
 	var degreeModel = new AddCandidateViewModel();
-	var candidate = new Candidate();
+
+	var tokenSet = Context.GetAntiforgeryToken();
+
 }
+
+<style>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"/ >
+</style>
+
 
 <h2>Candidates</h2>
 
 <table class="table">
 	<thead>
-		<tr>
-			<th>
-				@Html.DisplayNameFor(model => degreeModel.FirstName)
-			</th>
-			<th>
-				Degree Name
-			</th>
-			<th>
-				File Name
-			</th>
-		</tr>
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => degreeModel.FirstName)
+		</th>
+		<th>
+			Degree Name
+		</th>
+		<th>
+			File Name
+		</th>
+	</tr>
 	</thead>
 	<tbody>
-		@foreach (var item in Model)
-		{
-			<tr>
-				<td>
-					@Html.DisplayFor(modelItem => item.FirstName)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Degree.Name)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.CandidateFile.Name)
-				</td>
-				<td>
-					<a asp-action="EditCandidate" asp-route-candidateId="@item.Id">Edit</a>
-					<form asp-action="DeleteCandidate" asp-route-candidateId="@item.Id" method="post">
-						<button type="submit">Delete</button>
-					</form>
-				</td>
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.FirstName)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Degree.Name)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.CandidateFile.Name)
+			</td>
+			<td>
+				<a asp-action="EditCandidate" asp-route-candidateId="@item.Id">Edit</a>
+				<a data-bs-toggle="modal" href="#DeleteCandidateModal" data-candidate-id="@item.Id">
+					Delete
+				</a>
+			</td>
 
-			</tr>
-		}
+		</tr>
+	}
 	</tbody>
 </table>
+
+<!-- Delete modal -->
+<div id="DeleteCandidateModal" class="modal fade" tabindex="-1" aria-labelledby="DeleteCandidateModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="true" data-bs-focus="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content cust-modal-content-delete">
+			<div class="modal-header cust-modal-header-delete">
+				<h5 id="DeleteCandidateModalLabel" class="modal-title">Delete Candidate</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body cust-modal-body-delete">
+				<div class="cust-modal-body-content-delete">
+					<input id="DeleteCandidateModalCandidateId" type="hidden" value="" />
+					<p class="cust-modal-confirmation-text-delete">Are you sure you want to delete candidate?</p>
+				</div>
+			</div>
+			<div class="modal-footer cust-modal-footer-delete">
+				<button type="button" class="btn btn-red-upper cust-modal-delete-btn" onclick="deleteCandidate();">YES, &nbsp;Delete</button>
+				<button type="button" data-bs-dismiss="modal" class="btn btn-cancel-upper cust-modal-cancel-btn">No, take me back</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+					
+@section Scripts {
+
+	<script type="text/javascript">
+
+		let deleteCandidateModal = document.getElementById('DeleteCandidateModal');
+
+		deleteCandidateModal.addEventListener(
+			'show.bs.modal',
+			function (e) {
+
+				document.getElementById('DeleteCandidateModalCandidateId').value = e.relatedTarget.dataset.candidateId;
+			}
+		);
+
+		function deleteCandidate() {
+
+			const candidateId = document.getElementById('DeleteCandidateModalCandidateId').value;
+
+			fetch(
+				'@Url.Action("DeleteCandidate")',
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'@tokenSet.HeaderName': '@tokenSet.RequestToken'
+					},
+					body: JSON.stringify(candidateId)
+				})
+				.then((response) => {
+					if (response.ok) {
+						window.location.reload();
+					}
+					else {
+						// console.log(response);
+						throw new Error(response.statusText);
+					}
+				})
+				.catch((error) => {
+					// console.log(error);
+					// console.error(error);
+					window.location = '@Url.Action("HttpStatusCodeHandler", "Error", new { statusCode = 500 })';
+				});
+		}
+
+	</script>
+}
