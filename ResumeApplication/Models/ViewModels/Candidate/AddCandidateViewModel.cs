@@ -33,7 +33,7 @@ namespace ResumeApplication.Models.ViewModels.Candidate
 		/// <summary>
 		/// The mobile of the candidate
 		/// </summary>
-		[RegularExpression(Constants.PhoneRegEx, ErrorMessage = "Please enter 10 digits for a contact number")]
+		[RegularExpression(Constants.PhoneRegEx, ErrorMessage = "Please enter 10 digits for mobile")]
 		public string? Mobile { get; set; }
 
         /// <summary>

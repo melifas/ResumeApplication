@@ -25,7 +25,7 @@ namespace ResumeApplication.EntityTypeConfigurations
 
             builder.Property(e => e.CreationTime);
 
-            builder.HasOne(i => i.Degree).WithMany(a => a.Candidates).OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(i => i.Degree).WithMany(a => a.Candidates).OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

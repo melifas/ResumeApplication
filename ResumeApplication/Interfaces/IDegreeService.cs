@@ -53,6 +53,13 @@ namespace ResumeApplication.Interfaces
 		/// </returns>
 		Task DeleteDegreeAsync(int degreeId);
 
+		/// <summary>
+		/// Deletes unused degrees.
+		/// </summary>
+		/// <returns>
+		/// The <see cref="Task"/>
+		/// </returns>
+		Task DeleteUnUsedAsync();
 
 	}
 }

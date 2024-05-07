@@ -64,12 +64,15 @@ namespace ResumeApplication.Controllers
 
 				if (!ModelState.IsValid)
 				{
+
+					addCandidateViewModel.Degrees = await GetDegreesAsync().ConfigureAwait(true);
+
 					return View(addCandidateViewModel);
 				}
 
 				var addCandidate = new AddCandidateViewModel
 				{
-					DegreeId = addCandidateViewModel.DegreeId ?? 0,
+					DegreeId = addCandidateViewModel.DegreeId ?? null,
 					LastName = addCandidateViewModel.LastName,
 					FirstName = addCandidateViewModel.FirstName,
 					Email = addCandidateViewModel.Email,
@@ -131,6 +134,14 @@ namespace ResumeApplication.Controllers
 
 			try
 			{
+
+				if (!ModelState.IsValid)
+				{
+
+					editCandidateViewModel.Degrees = await GetDegreesAsync().ConfigureAwait(true);
+
+					return View(editCandidateViewModel);
+				}
 
 				var modelDegree = new EditCandidateModel
 				{

@@ -137,5 +137,19 @@ namespace ResumeApplication.Services
 				throw;
 			}
 		}
+
+		/// <inheritdoc/>
+		public async Task DeleteUnUsedAsync()
+		{
+			var used = await _context.Candidates.Where(c => c.DegreeId != null).ToListAsync().ConfigureAwait(false);
+
+			var unusedDegrees = await _context.Degrees.Where(d => !used.Select(u => u.DegreeId).Contains(d.Id)).ToListAsync().ConfigureAwait(false);
+
+			_context.Degrees.RemoveRange(unusedDegrees);
+
+			await _context.SaveChangesAsync().ConfigureAwait(false);
+		}
+
+
 	}
 }

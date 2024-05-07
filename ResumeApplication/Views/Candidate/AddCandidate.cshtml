@@ -38,7 +38,7 @@
                     <option value="">-- Select Degree --</option>
                 </select>
 			</div>
-			<div class="form-group">
+			<div class="form-group" style="margin-bottom: 20px;">
 				<label asp-for="UploadCv" class="form-label"></label>
 				<input asp-for="UploadCv" class="form-control" type="file" accept="@MimeTypes.ApplicationPdf, @MimeTypes.ApplicationWordOpenXml" />
 				<span asp-validation-for="UploadCv" class="text-danger"></span>

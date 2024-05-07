@@ -9,30 +9,36 @@
 
 <h2>Degrees</h2>
 
+<form asp-action="DeleteUnused" method="post">
+	<button type="submit" class="btn btn-danger">Delete  Unused</button>
+</form>
+
+<hr/>
+
 <table class="table">
 	<thead>
-		<tr>
-			<th>
-				@Html.DisplayNameFor(model => degreeModel.Name)
-			</th>
-			<th></th>
-		</tr>
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => degreeModel.Name)
+		</th>
+		<th></th>
+	</tr>
 	</thead>
 	<tbody>
-		@foreach (var item in Model)
-		{
-			<tr>
-				<td>
-					@Html.DisplayFor(modelItem => item.Name)
-				</td>
-				<td>
-					<a asp-action="EditDegree" asp-route-degreeId="@item.Id">Edit</a>
-					<form asp-action="DeleteDegree" asp-route-degreeId="@item.Id" method="post">
-						<button type="submit">Delete</button>
-					</form>
-				</td>
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Name)
+			</td>
+			<td>
+				<a asp-action="EditDegree" asp-route-degreeId="@item.Id">Edit</a>
+				<form asp-action="DeleteDegree" asp-route-degreeId="@item.Id" method="post">
+					<button type="submit">Delete</button>
+				</form>
+			</td>
 				
-			</tr>
-		}
+		</tr>
+	}
 	</tbody>
 </table>

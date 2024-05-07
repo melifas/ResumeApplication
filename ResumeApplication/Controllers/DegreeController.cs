@@ -155,5 +155,27 @@ namespace ResumeApplication.Controllers
 
 		}
 
+
+		[HttpPost("degrees/unused/delete")]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> DeleteUnused(int degreeId)
+		{
+			try
+			{
+				await _degreeService.DeleteUnUsedAsync().ConfigureAwait(true);
+
+				return RedirectToAction("Index");
+			}
+			catch (KeyNotFoundException ke)
+			{
+				return View("Errors/NotFound");
+			}
+			catch (Exception e)
+			{
+				return View("Errors/InternalServerError");
+			}
+		}
+
+
 	}
 }

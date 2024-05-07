@@ -95,7 +95,7 @@ namespace ResumeApplication.Services
 					Email = candidateModel.Email,
 					Mobile = candidateModel.Mobile,
 					CreationTime = DateTime.UtcNow,
-					DegreeId = candidateModel.DegreeId
+					DegreeId = candidateModel.DegreeId ?? null
 				};
 			}
 
