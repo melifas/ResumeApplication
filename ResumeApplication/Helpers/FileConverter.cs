@@ -6,18 +6,6 @@
 	public static class FileConverter
 	{
 		/// <summary>
-		/// Converts the <paramref name="files"/> to base64 encoded strings.
-		/// </summary>
-		/// <param name="files"> The list of <see cref="IFormFile"/> files. </param>
-		/// <returns>
-		/// The files as base64 encoded strings.
-		/// </returns>
-		public static List<string> ConvertToBase64(IEnumerable<IFormFile> files)
-		{
-			return files.Select(ConvertToBase64).ToList();
-		}
-
-		/// <summary>
 		/// Converts the <paramref name="file"/> to a base64 encoded string.
 		/// </summary>
 		/// <param name="file"> The <see cref="IFormFile"/> file. </param>

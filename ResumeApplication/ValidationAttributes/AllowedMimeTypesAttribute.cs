@@ -80,7 +80,6 @@ namespace ResumeApplication.ValidationAttributes
 
             switch (file.ContentType)
             {
-                // TODO: file extensions for jpg, jpeg should be moved in some constant(s) and used everywhere
                 case MimeTypes.ApplicationPdf:
                     isValidFile = IFormFileValidator.IsValidPdf(file);
                     break;

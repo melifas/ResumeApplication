@@ -15,18 +15,6 @@
         /// <summary>
         /// Checks if specified file is a valid PDF file.
         /// </summary>
-        /// <param name="base64EncodedFile"> The base 64 encoded file. </param>
-        /// <returns>
-        /// True if file is a PDF otherwise false.
-        /// </returns>
-        public static bool IsValidPdf(string base64EncodedFile)
-        {
-            return !string.IsNullOrWhiteSpace(base64EncodedFile) && IsValidPdf(Convert.FromBase64String(base64EncodedFile));
-        }
-
-        /// <summary>
-        /// Checks if specified file is a valid PDF file.
-        /// </summary>
         /// <param name="fileByteArray"> The file in bytes. </param>
         /// <returns>
         /// True if file is a PDF otherwise false.
@@ -34,18 +22,6 @@
         public static bool IsValidPdf(byte[] fileByteArray)
         {
             return IsValidByteLength(fileByteArray, PdfByteArray);
-        }
-
-        /// <summary>
-        /// Checks if specified file is a valid DOCX/PPTX/XLSX file.
-        /// </summary>
-        /// <param name="base64EncodedFile"> The base 64 encoded file. </param>
-        /// <returns>
-        /// True if file is a DOCX/PPTX/XLSX otherwise false.
-        /// </returns>
-        public static bool IsValidDocx(string base64EncodedFile)
-        {
-            return !string.IsNullOrWhiteSpace(base64EncodedFile) && IsValidDocx(Convert.FromBase64String(base64EncodedFile));
         }
 
         /// <summary>

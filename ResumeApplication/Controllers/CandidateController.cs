@@ -143,14 +143,14 @@ namespace ResumeApplication.Controllers
 					return View(editCandidateViewModel);
 				}
 
-				var modelDegree = new EditCandidateModel
+				var modelDegree = new EditCandidateViewModel
 				{
 					Id = editCandidateViewModel.Id,
 					FirstName = editCandidateViewModel.FirstName,
 					LastName = editCandidateViewModel.LastName,
 					Email = editCandidateViewModel.Email,
 					Mobile = editCandidateViewModel.Mobile,
-					DegreeId = editCandidateViewModel.DegreeId ?? 0,
+					DegreeId = editCandidateViewModel.DegreeId??null
 				};
 
 				if (editCandidateViewModel.UploadCv is not null)

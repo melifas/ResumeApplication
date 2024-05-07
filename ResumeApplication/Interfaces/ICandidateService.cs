@@ -39,11 +39,11 @@ namespace ResumeApplication.Interfaces
 		/// <summary>
 		/// Updates a candidate.
 		/// </summary>
-		/// <param name="editCandidateModel"> The <see cref="EditCandidateModel"/> </param>
+		/// <param name="editCandidateViewModel"> The <see cref="EditCandidateViewModel"/> </param>
 		/// <returns>
 		/// The <see cref="Task"/>
 		/// </returns>
-		Task UpdateCandidateAsync(EditCandidateModel editCandidateModel);
+		Task UpdateCandidateAsync(EditCandidateViewModel editCandidateViewModel);
 
 		/// <summary>
 		/// Deletes a candidate.

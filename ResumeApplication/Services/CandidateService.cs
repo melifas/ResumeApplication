@@ -2,6 +2,7 @@
 using ResumeApplication.Entities;
 using ResumeApplication.Interfaces;
 using System.Collections.ObjectModel;
+using System.Net.WebSockets;
 using ResumeApplication.Models;
 using ResumeApplication.Helpers;
 using System.Text;
@@ -95,7 +96,7 @@ namespace ResumeApplication.Services
 					Email = candidateModel.Email,
 					Mobile = candidateModel.Mobile,
 					CreationTime = DateTime.UtcNow,
-					DegreeId = candidateModel.DegreeId ?? null
+					DegreeId = candidateModel.DegreeId
 				};
 			}
 
@@ -110,7 +111,7 @@ namespace ResumeApplication.Services
 		}
 
 		/// <inheritdoc/>
-		public async Task UpdateCandidateAsync(EditCandidateModel editCandidateModel)
+		public async Task UpdateCandidateAsync(EditCandidateViewModel editCandidateModel)
 		{
 			if (editCandidateModel == null)
 			{
@@ -152,11 +153,13 @@ namespace ResumeApplication.Services
 
 			}
 
+
 			candidateModel.FirstName = editCandidateModel.FirstName;
 			candidateModel.LastName = editCandidateModel.LastName;
 			candidateModel.Email = editCandidateModel.Email;
 			candidateModel.Mobile = editCandidateModel.Mobile;
 			candidateModel.DegreeId = editCandidateModel.DegreeId;
+			candidateModel.Degree = _context.Degrees.FirstOrDefault(x => x.Id == editCandidateModel.DegreeId);
 
 			_context.Candidates.Update(candidateModel);
 
