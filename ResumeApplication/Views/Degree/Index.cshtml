@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
 @using ResumeApplication.Helpers
 @using ResumeApplication.Models.ViewModels.Degree
+
 @model IReadOnlyCollection<ResumeApplication.Entities.Degree>
 
 @{
@@ -53,20 +54,20 @@
 <!-- Delete modal -->
 <div id="DeleteDegreeModal" class="modal fade" tabindex="-1" aria-labelledby="DeleteDegreeModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="true" data-bs-focus="true">
 	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content cust-modal-content-delete">
-			<div class="modal-header cust-modal-header-delete">
+		<div class="modal-content">
+			<div class="modal-header">
 				<h5 id="DeleteDegreeModalLabel" class="modal-title">Delete Degree</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
-			<div class="modal-body cust-modal-body-delete">
-				<div class="cust-modal-body-content-delete">
+			<div class="modal-body">
+				<div>
 					<input id="DeleteDegreeModalDegreeId" type="hidden" value="" />
-					<p class="cust-modal-confirmation-text-delete">Are you sure you want to delete degree?</p>
+					<p>Are you sure you want to delete degree?</p>
 				</div>
 			</div>
-			<div class="modal-footer cust-modal-footer-delete">
-				<button type="button" class="btn btn-red-upper cust-modal-delete-btn" onclick="deleteDegree();">YES, &nbsp;Delete</button>
-				<button type="button" data-bs-dismiss="modal" class="btn btn-cancel-upper cust-modal-cancel-btn">No, take me back</button>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" onclick="deleteDegree();">YES, &nbsp;Delete</button>
+				<button type="button" data-bs-dismiss="modal" class="btn btn-primary">No, take me back</button>
 			</div>
 		</div>
 	</div>
