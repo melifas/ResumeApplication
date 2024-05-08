@@ -1,12 +1,12 @@
 ﻿using ResumeApplication.Context;
 using ResumeApplication.Entities;
 using ResumeApplication.Interfaces;
-using System.Collections.ObjectModel;
-using System.Net.WebSockets;
-using ResumeApplication.Models;
 using ResumeApplication.Helpers;
-using System.Text;
 using ResumeApplication.Models.ViewModels.Candidate;
+
+using System.Collections.ObjectModel;
+using System.Text;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace ResumeApplication.Services

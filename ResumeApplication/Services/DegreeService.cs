@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
 using ResumeApplication.Context;
 using ResumeApplication.Entities;
 using ResumeApplication.Interfaces;
 using ResumeApplication.Models.ServiceModels.Degree;
+
 using System.Collections.ObjectModel;
 
 namespace ResumeApplication.Services

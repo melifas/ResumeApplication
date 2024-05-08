@@ -1,7 +1,8 @@
 ﻿using ResumeApplication.Models.ServiceModels.Degree;
+
 using System.Collections.ObjectModel;
+
 using ResumeApplication.Entities;
-using ResumeApplication.Models;
 using ResumeApplication.Models.ViewModels.Candidate;
 
 namespace ResumeApplication.Interfaces
